@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ARCHBLOXBootstrapper
 {
-    public partial class Form1 : Form
+    public partial class ARCHBLOX : Form
     {
-        public Form1()
+        public ARCHBLOX()
         {
             InitializeComponent();
         }
