@@ -17,6 +17,7 @@ namespace ARCHBLOXBootstrapper
 {
     public partial class ARCHBLOX : Form
     {
+        public bool IsCompleted = false;
         private static WebClient wc = new WebClient();
         private static ManualResetEvent handle = new ManualResetEvent(true);
 
@@ -29,11 +30,18 @@ namespace ARCHBLOXBootstrapper
             label2.Text = "Configuring ARCHBLOX...";
             wc.DownloadProgressChanged += Client_DownloadProgressChanged;
             wc.DownloadFileCompleted += Client_DownloadFileCompleted;
-            string fileName = System.IO.Path.GetFileName(@"https://archblox.com/img/ARCHBLOXarched.png");
-            string folderPath = Path.Combine(@"%LocalAppData%", @"\ARCHBLOX\");
-            string filePath = Path.Combine(folderPath, "test.png");
+            byte[] raw = wc.DownloadData("https://archblox.com/client/version.txt");
+            string webData = Encoding.UTF8.GetString(raw);
+            string version_string = webData;
+            string folderPath = Path.Combine(@"C:\ARCHBLOX\", version_string + @"\");
+            string filePath = Path.Combine(folderPath, Path.GetFileName(@"https://archblox.com/client/" + version_string + ".zip"));
+            if (Directory.Exists(folderPath))
+            {
+                label2.Text = "Removing previous install...";
+                Directory.Delete(folderPath, true);
+            }
             Directory.CreateDirectory(folderPath);
-            wc.DownloadFileAsync(new Uri(@"https://archblox.com/img/ARCHBLOXarched.png"), filePath);
+            wc.DownloadFileAsync(new Uri(@"https://archblox.com/client/" + version_string + ".zip"), filePath);
             progressBar2.Style = ProgressBarStyle.Blocks;
             handle.WaitOne();
         }
@@ -44,8 +52,17 @@ namespace ARCHBLOXBootstrapper
         }
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            label2.Text = "ARCHBLOX has been installed!";
-            handle.WaitOne();
+            if (IsCompleted == false)
+            {
+                IsCompleted = true;
+                byte[] raw = wc.DownloadData("https://archblox.com/client/version.txt");
+                string webData = Encoding.UTF8.GetString(raw);
+                string version_string = webData;
+                string folderPath = Path.Combine(@"C:\ARCHBLOX\", version_string + @"\");
+                string filePath = Path.Combine(folderPath, Path.GetFileName(@"https://archblox.com/client/" + version_string + ".zip"));
+                ZipFile.ExtractToDirectory(filePath, folderPath);
+                label2.Text = "ARCHBLOX has been installed!";
+            }
         }
 
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
