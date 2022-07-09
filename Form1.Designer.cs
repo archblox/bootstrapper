@@ -75,9 +75,9 @@
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBox2.Image = global::ARCHBLOXBootstrapper.Properties.Resources.archblox;
             this.pictureBox2.InitialImage = global::ARCHBLOXBootstrapper.Properties.Resources.archblox;
-            this.pictureBox2.Location = new System.Drawing.Point(3, 12);
+            this.pictureBox2.Location = new System.Drawing.Point(3, 6);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(51, 52);
+            this.pictureBox2.Size = new System.Drawing.Size(46, 46);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
@@ -85,22 +85,24 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(60, 12);
+            this.label2.Location = new System.Drawing.Point(55, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(174, 20);
+            this.label2.Size = new System.Drawing.Size(144, 15);
             this.label2.TabIndex = 1;
             this.label2.Text = "Configuring ARCHBLOX...";
             // 
             // progressBar2
             // 
-            this.progressBar2.Location = new System.Drawing.Point(60, 35);
+            this.progressBar2.Location = new System.Drawing.Point(55, 29);
+            this.progressBar2.MarqueeAnimationSpeed = 10;
             this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(252, 29);
+            this.progressBar2.Size = new System.Drawing.Size(217, 23);
+            this.progressBar2.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar2.TabIndex = 2;
             // 
             // ARCHBLOX
             // 
-            this.ClientSize = new System.Drawing.Size(317, 72);
+            this.ClientSize = new System.Drawing.Size(286, 59);
             this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox2);
@@ -109,7 +111,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ARCHBLOX";
-            this.Text = "ARCHBLOX";
+            this.Text = "ARCHBLOX Installer";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
