@@ -69,14 +69,14 @@ namespace ARCHBLOXBootstrapper
             {
                 Directory.CreateDirectory(clientPath);
                 wc.DownloadFileAsync(new Uri(@"https://archblox.com/studio/" + version_string + ".zip"), filePath);
-                progressBar2.Style = ProgressBarStyle.Blocks;   
+                progressBar2.Style = ProgressBarStyle.Blocks;
                 handle.WaitOne();
             }
         }
 
         private void ARCHBLOX_Load(object sender, EventArgs e)
         {
-           // nothing lol!
+           // nothing
         }
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
