@@ -24,7 +24,7 @@ namespace ARCHBLOXBootstrapper
             string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\ARCHBLOX Studio.lnk";
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
             shortcut.Description = "ARCHBLOX Studio";
-            shortcut.TargetPath = Path.GetFullPath(Application.ExecutablePath);
+            shortcut.TargetPath = Extensions.GetExecutablePath();
             shortcut.Save();
         }
 
@@ -69,7 +69,7 @@ namespace ARCHBLOXBootstrapper
             {
                 Directory.CreateDirectory(clientPath);
                 wc.DownloadFileAsync(new Uri(@"https://archblox.com/studio/" + version_string + ".zip"), filePath);
-                progressBar2.Style = ProgressBarStyle.Blocks;
+                progressBar2.Style = ProgressBarStyle.Blocks;   
                 handle.WaitOne();
             }
         }
