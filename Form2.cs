@@ -40,6 +40,8 @@ namespace ARCHBLOXBootstrapper
             string studioPath = Path.Combine(clientPath, "ArchbloxStudio.exe");
             if (Directory.Exists(clientPath) & System.IO.File.Exists(studioPath))
             {
+                label1.Text = "Launching Studio...";
+                DontEvenBother = true;
                 CreateShortcut();
                 var pProcess = new Process();
                 pProcess.StartInfo.FileName = studioPath;
@@ -48,9 +50,8 @@ namespace ARCHBLOXBootstrapper
                 pProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Normal;
                 pProcess.StartInfo.CreateNoWindow = false;
                 pProcess.Start();
-                Environment.Exit(0);
             }
-            if (Directory.Exists(folderPath))
+            if (Directory.Exists(folderPath) & DontEvenBother == false)
             {
                 DialogResult res = MessageBox.Show("Do you want to delete previous installs of ARCHBLOX Studio?", "ARCHBLOX Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (res == DialogResult.Yes)
@@ -62,15 +63,19 @@ namespace ARCHBLOXBootstrapper
             wc.DownloadProgressChanged += Client_DownloadProgressChanged;
             wc.DownloadFileCompleted += Client_DownloadFileCompleted;
             progressBar2.Style = ProgressBarStyle.Marquee;
-            label2.Text = "Configuring ARCHBLOX...";
             wc.DownloadProgressChanged += Client_DownloadProgressChanged;
             wc.DownloadFileCompleted += Client_DownloadFileCompleted;
             if (DontEvenBother == false)
             {
+                label2.Text = "Configuring ARCHBLOX...";
                 Directory.CreateDirectory(clientPath);
                 wc.DownloadFileAsync(new Uri(@"https://archblox.com/studio/" + version_string + ".zip"), filePath);
                 progressBar2.Style = ProgressBarStyle.Blocks;
                 handle.WaitOne();
+            } else
+            {
+                Thread.Sleep(3000);
+                Environment.Exit(0);
             }
         }
 

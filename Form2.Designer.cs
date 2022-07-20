@@ -87,9 +87,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(55, 6);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 15);
+            this.label2.Size = new System.Drawing.Size(132, 14);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Configuring ARCHBLOX...";
+            this.label2.Text = "Checking for updates...";
             // 
             // progressBar2
             // 
