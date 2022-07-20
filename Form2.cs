@@ -76,7 +76,7 @@ namespace ARCHBLOXBootstrapper
 
         private void ARCHBLOX_Load(object sender, EventArgs e)
         {
-           // nothing
+           // nothing lol!
         }
         private void Client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
