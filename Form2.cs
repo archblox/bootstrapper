@@ -40,6 +40,7 @@ namespace ARCHBLOXBootstrapper
             string studioPath = Path.Combine(clientPath, "ArchbloxStudio.exe");
             if (Directory.Exists(clientPath) & System.IO.File.Exists(studioPath))
             {
+                // studio exists, create shortcut and laucnh studio
                 label1.Text = "Launching Studio...";
                 DontEvenBother = true;
                 CreateShortcut();
@@ -53,6 +54,7 @@ namespace ARCHBLOXBootstrapper
             }
             if (Directory.Exists(folderPath) & DontEvenBother == false)
             {
+                // ask user if they want to delete previous installs
                 DialogResult res = MessageBox.Show("Do you want to delete previous installs of ARCHBLOX Studio?", "ARCHBLOX Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (res == DialogResult.Yes)
                 {
@@ -60,6 +62,7 @@ namespace ARCHBLOXBootstrapper
                     Directory.Delete(folderPath, true);
                 }
             }
+            // setup events
             wc.DownloadProgressChanged += Client_DownloadProgressChanged;
             wc.DownloadFileCompleted += Client_DownloadFileCompleted;
             progressBar2.Style = ProgressBarStyle.Marquee;
@@ -67,6 +70,7 @@ namespace ARCHBLOXBootstrapper
             wc.DownloadFileCompleted += Client_DownloadFileCompleted;
             if (DontEvenBother == false)
             {
+                // install studio
                 label2.Text = "Configuring ARCHBLOX...";
                 Directory.CreateDirectory(clientPath);
                 wc.DownloadFileAsync(new Uri(@"https://archblox.com/studio/" + version_string + ".zip"), filePath);
@@ -74,6 +78,7 @@ namespace ARCHBLOXBootstrapper
                 handle.WaitOne();
             } else
             {
+                // close program
                 Thread.Sleep(3000);
                 Environment.Exit(0);
             }
@@ -87,6 +92,7 @@ namespace ARCHBLOXBootstrapper
         {
             if (IsCompleted == false)
             {
+                // the download has completed, extract.zip, create shortcut and launch!
                 IsCompleted = true;
                 byte[] raw = wc.DownloadData("https://archblox.com/studio/version.txt");
                 string webData = Encoding.UTF8.GetString(raw);
@@ -113,6 +119,7 @@ namespace ARCHBLOXBootstrapper
 
         private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
+            // update progress bar and text
             progressBar2.Minimum = 0;
             double receive = double.Parse(e.BytesReceived.ToString());
             double total = double.Parse(e.TotalBytesToReceive.ToString());
