@@ -12,6 +12,7 @@ namespace ARCHBLOXBootstrapper
 {   
     public partial class ARCHBLOX : Form
     {
+        // set up variables
         public bool IsCompleted = false;
         public bool DontEvenBother = false;
         private static WebClient wc = new WebClient();
@@ -19,6 +20,7 @@ namespace ARCHBLOXBootstrapper
 
         private void CreateShortcut()
         {
+            // create a shorcut on the user's desktop
             object shDesktop = (object)"Desktop";
             WshShell shell = new WshShell();
             string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + @"\ARCHBLOX Studio.lnk";
@@ -31,6 +33,7 @@ namespace ARCHBLOXBootstrapper
         public ARCHBLOX()
         {
             InitializeComponent();
+            // setup paths
             byte[] raw = wc.DownloadData("https://archblox.com/studio/version.txt");
             string webData = Encoding.UTF8.GetString(raw);
             string version_string = webData;
@@ -40,7 +43,7 @@ namespace ARCHBLOXBootstrapper
             string studioPath = Path.Combine(clientPath, "ArchbloxStudio.exe");
             if (Directory.Exists(clientPath) & System.IO.File.Exists(studioPath))
             {
-                // studio exists, create shortcut and laucnh studio
+                // studio exists, create shortcut and launch studio
                 label1.Text = "Launching Studio...";
                 DontEvenBother = true;
                 CreateShortcut();
