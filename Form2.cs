@@ -107,7 +107,7 @@ namespace ARCHBLOXBootstrapper
         {
             if (IsCompleted == false)
             {
-                // the download has completed, extract.zip, create shortcut and launch!
+                // the download has completed, extract.zip, create shortcut and launch! yay!!!
                 IsCompleted = true;
                 byte[] raw = wc.DownloadData("http://archblox.com/studio/version.txt");
                 string webData = Encoding.UTF8.GetString(raw);
