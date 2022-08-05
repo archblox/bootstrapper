@@ -14,6 +14,7 @@ namespace ARCHBLOXBootstrapper
     {
         // set up variables
         public bool IsCompleted = false;
+        public bool exitafterarg = false;
         public bool DontEvenBother = false;
         private static WebClient wc = new WebClient();
         private static ManualResetEvent handle = new ManualResetEvent(true);
@@ -33,14 +34,27 @@ namespace ARCHBLOXBootstrapper
         public ARCHBLOX()
         {
             InitializeComponent();
+            // check for an internet connection first
+            try
+            {
+                wc.DownloadData("http://archblox.com/studio/version.txt");
+            }
+            catch
+            {
+                MessageBox.Show("An error occoured while starting ARCHBLOX Studio\n\nDetails: HttpOpenRequest failed for GET http://archblox.com/studio/version.txt, Error ID: 6", "ARCHBLOX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
             // setup paths
-            byte[] raw = wc.DownloadData("https://archblox.com/studio/version.txt");
+            byte[] raw = wc.DownloadData("http://archblox.com/studio/version.txt");
             string webData = Encoding.UTF8.GetString(raw);
             string version_string = webData;
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Archblx\", @"Studio\", @"Versions\");
             string clientPath = Path.Combine(folderPath, version_string + @"\");
-            string filePath = Path.Combine(clientPath, Path.GetFileName(@"https://archblox.com/client/" + version_string + ".zip"));
+            string filePath = Path.Combine(clientPath, Path.GetFileName(@"http://archblox.com/client/" + version_string + ".zip"));
             string studioPath = Path.Combine(clientPath, "ArchbloxStudio.exe");
+            ARCHBLOXProtocol.ARCHBLOXURIProtocol.Register();
+            CreateShortcut();
+            // TODO: Make studio place launching URI.
             if (Directory.Exists(clientPath) & System.IO.File.Exists(studioPath))
             {
                 // studio exists, create shortcut and launch studio
@@ -69,14 +83,12 @@ namespace ARCHBLOXBootstrapper
             wc.DownloadProgressChanged += Client_DownloadProgressChanged;
             wc.DownloadFileCompleted += Client_DownloadFileCompleted;
             progressBar2.Style = ProgressBarStyle.Marquee;
-            wc.DownloadProgressChanged += Client_DownloadProgressChanged;
-            wc.DownloadFileCompleted += Client_DownloadFileCompleted;
             if (DontEvenBother == false)
             {
                 // install studio
                 label2.Text = "Configuring ARCHBLOX...";
                 Directory.CreateDirectory(clientPath);
-                wc.DownloadFileAsync(new Uri(@"https://archblox.com/studio/" + version_string + ".zip"), filePath);
+                wc.DownloadFileAsync(new Uri(@"http://archblox.com/studio/" + version_string + ".zip"), filePath);
                 progressBar2.Style = ProgressBarStyle.Blocks;
                 handle.WaitOne();
             } else
@@ -97,12 +109,12 @@ namespace ARCHBLOXBootstrapper
             {
                 // the download has completed, extract.zip, create shortcut and launch!
                 IsCompleted = true;
-                byte[] raw = wc.DownloadData("https://archblox.com/studio/version.txt");
+                byte[] raw = wc.DownloadData("http://archblox.com/studio/version.txt");
                 string webData = Encoding.UTF8.GetString(raw);
                 string version_string = webData;
                 string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Archblx\", @"Studio\", @"Versions\");
                 string clientPath = Path.Combine(folderPath, version_string + @"\");
-                string filePath = Path.Combine(clientPath, Path.GetFileName(@"https://archblox.com/studio/" + version_string + ".zip"));
+                string filePath = Path.Combine(clientPath, Path.GetFileName(@"http://archblox.com/studio/" + version_string + ".zip"));
                 string studioPath = Path.Combine(clientPath, "ArchbloxStudio.exe");
                 ZipFile.ExtractToDirectory(filePath, clientPath);
                 System.IO.File.Delete(filePath);
