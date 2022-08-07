@@ -1,2 +1,2 @@
 # ARCHBLOXBootstrapper
-A installer for ARCHBLOX. This is used for studio launching.
+A installer for ARCHBLOX Studio. This is used for studio launching and installing.
