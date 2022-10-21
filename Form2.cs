@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
+
 namespace ARCHBLOXBootstrapper
 {   
     public partial class ARCHBLOX : Form
@@ -31,6 +33,13 @@ namespace ARCHBLOXBootstrapper
             shortcut.Save();
         }
 
+        private static long GetDirectorySize(string folderPath)
+        {
+            // get size of a directory, important for showing the user how much space ARCHBLOX takes
+            DirectoryInfo di = new DirectoryInfo(folderPath);
+            return di.EnumerateFiles("*", SearchOption.AllDirectories).Sum(fi => fi.Length) / 1000000;
+        }
+
         public ARCHBLOX()
         {
             InitializeComponent();
@@ -50,7 +59,7 @@ namespace ARCHBLOXBootstrapper
             string version_string = webData;
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Archblx\", @"Studio\", @"Versions\");
             string clientPath = Path.Combine(folderPath, version_string + @"\");
-            string filePath = Path.Combine(clientPath, Path.GetFileName(@"http://archblox.com/client/" + version_string + ".zip"));
+            string filePath = Path.Combine(clientPath, Path.GetFileName(@"http://archblox.com/studio/" + version_string + ".zip"));
             string studioPath = Path.Combine(clientPath, "ArchbloxStudio.exe");
             ARCHBLOXProtocol.ARCHBLOXURIProtocol.Register();
             CreateShortcut();
@@ -72,7 +81,7 @@ namespace ARCHBLOXBootstrapper
             if (Directory.Exists(folderPath) & DontEvenBother == false)
             {
                 // ask user if they want to delete previous installs
-                DialogResult res = MessageBox.Show("Do you want to delete previous installs of ARCHBLOX Studio?", "ARCHBLOX Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                DialogResult res = MessageBox.Show("Do you want to delete previous installs of ARCHBLOX Studio? Current size of ARCHBLOX Studio folder: " + GetDirectorySize(folderPath) + "MB.", "ARCHBLOX Studio", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (res == DialogResult.Yes)
                 {
                     label1.Text = "Removing previous installs...";
@@ -139,7 +148,7 @@ namespace ARCHBLOXBootstrapper
             double receive = double.Parse(e.BytesReceived.ToString());
             double total = double.Parse(e.TotalBytesToReceive.ToString());
             double percentage = receive / total * 100;
-            label2.Text = "Installing ARCHBLOX... (" + Math.Truncate(percentage).ToString() + "% Completed)";
+            label2.Text = "Installing ARCHBLOX... (" + Math.Truncate(percentage).ToString() + "%)";
             progressBar2.Value = int.Parse(Math.Truncate(percentage).ToString());
         }
     }
