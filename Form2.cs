@@ -46,7 +46,7 @@ namespace ARCHBLOXBootstrapper
             // check for an internet connection first
             try
             {
-                wc.DownloadData("http://archblox.com/studio/version.txt");
+                wc.DownloadData("https://archblox.com/studio/version.txt");
             }
             catch
             {
@@ -54,7 +54,7 @@ namespace ARCHBLOXBootstrapper
                 Environment.Exit(0);
             }
             // setup paths
-            byte[] raw = wc.DownloadData("http://archblox.com/studio/version.txt");
+            byte[] raw = wc.DownloadData("https://archblox.com/studio/version.txt");
             string webData = Encoding.UTF8.GetString(raw);
             string version_string = webData;
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Archblx\", @"Studio\", @"Versions\");
